@@ -1,0 +1,150 @@
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<body>
+
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want to remove this item?</h2>
+		</div>
+		<div class="modal-body">
+		  <p><input type="button" onclick="confirmRemove()" value="YES"></p>
+		  <p><input type="button" onclick="undoDelete()" value="NO"></p>
+		</div>
+	  </div>
+
+	</div>
+	
+	<br/>
+	<div align="center">
+		<input type="text" id="marketerSearchBox" placeholder="Search..." class="search-box-input" onkeyup="marketerSearch()">
+		<button class="search-box-button" onclick="marketerSearch()">&#128269;</button>
+		<a href="?marketer_uploadProduct"><span class="message">Upload New Product</span></a>
+		<a href="?marketer_managePromotionalImage"><span class="message">Manage Promotional Images</span></a>
+	<div id="suggestionBox">
+	</div>
+	<br/>
+	
+	<div id="productsList">
+	<table border="2" align="center">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Type</th>
+				<th>Color</th>
+				<th>Price</th>
+				<th>Description</th>
+				<th>Action</th>
+			</tr>
+			<script>
+				if(products[0].name!=" "){
+					for(var index in products){
+					document.write(
+								'<tr>'+
+								'<td>'+products[index].id+'</td>'+
+								'<td>'+products[index].name+'</td>'+
+								'<td><img src="'+products[index].image+'"></td>'+
+								'<td>'+products[index].type+'</td>'+
+								'<td>'+products[index].color+'</td>'+
+								'<td>'+products[index].price+'</td>'+
+								'<td>'+products[index].description+'</td>'+
+								'<td><input type="button" onclick="modifyProduct('+products[index].id+')" value="Modify"><br/><br/>'+
+								'<input type="button" onclick="deleteProduct('+products[index].id+')" value="Delete"></td>'+
+								'</tr>');
+					}
+					}
+				else
+				{
+					document.write('<p align="center"><span class="message">No results found!</span></p>');
+				}
+			</script>
+		</thead>
+	</table>
+	</div>
+	
+</body>
+
+<script>
+
+	function modifyProduct(productId)
+	{
+		location="?marketer_modifyProduct_"+productId;
+	}
+
+	function marketerSearch()
+	{
+        var searchBox = document.getElementById("marketerSearchBox");
+		var query2 = searchBox.value.replace(/ /g,"--");
+		var req2 = new XMLHttpRequest();
+		req2.open("GET", "?marketer_search_"+query2, true);
+		req2.send();
+        req2.onreadystatechange = function (){
+		if(req2.readyState==4){
+		
+			var productsList = JSON.parse(req2.responseText.split(/\r?\n/).pop().trim());
+			console.log(productsList);
+			var productsListObj = document.getElementById("productsList");
+			productsListHTML="";
+			if(productsList[0].name!=" "){
+				productsListHTML=
+				'<table border="2" align="center">'+
+					'<thead>'+
+						'<tr>'+
+							'<th>ID</th>'+
+							'<th>Name</th>'+
+							'<th>Image</th>'+
+							'<th>Type</th>'+
+							'<th>Color</th>'+
+							'<th>Price</th>'+
+							'<th>Description</th>'+
+							'<th>Action</th></tr></thead>';
+						
+				for(var index in productsList){
+				productsListHTML+='<tr>'+
+							'<td>'+productsList[index].id+'</td>'+
+							'<td>'+productsList[index].name+'</td>'+
+							'<td><img src="'+productsList[index].image+'"></td>'+
+							'<td>'+productsList[index].type+'</td>'+
+							'<td>'+productsList[index].color+'</td>'+
+							'<td>'+productsList[index].price+'</td>'+
+							'<td>'+productsList[index].description+'</td>'+
+							'<td><input type="button" onclick="modifyProduct('+productsList[index].id+')" value="Modify"><br/><br/>'+
+							'<input type="button" onclick="deleteProduct('+productsList[index].id+')" value="Delete"></td>'+
+							'</tr>';
+				}
+				productsListObj.innerHTML=productsListHTML+'</table>';
+				}
+				
+			else
+			{
+				productsListObj.innerHTML='<p align="center"><span class="message">No results found!</span></p>';
+			}
+          }
+		  else{
+			console.log(req2.responseText);
+		 }
+		 }
+	}
+	
+	var productId = null;
+	function deleteProduct(productId)
+	{
+		window.productId=productId;
+		var modal = document.getElementById('myModal');
+		modal.style.display = "block";
+	}
+	function confirmRemove()
+	{
+		location = "?marketer_removeProduct_"+window.productId;
+	}
+	
+	function undoDelete() {
+	var modal = document.getElementById('myModal');
+    modal.style.display = "none";
+	}
+	
+</script>

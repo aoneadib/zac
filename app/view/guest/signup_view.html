@@ -1,0 +1,169 @@
+<html>
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2 id="modalHeaderMessage">Registration Successful</h2>
+		</div>
+		<div class="modal-body">
+		<input type="button" value="Log-In" onclick="login()">
+		</div>
+	  </div>
+
+	</div>
+
+	
+	<head>
+		<title>ZAC | Sign-up</title>
+		<link rel="stylesheet" type="text/css" href="design/regstyle.css">
+	</head>
+	<body>
+	<div class="wrapper">
+		<h1>Create New Account</h1>
+		<form method="post" onsubmit="return f();">
+			<input type="text" name="name" onkeyup="isValidName(this.value)" placeholder="Name"/><div class="nameError"></div>
+			<input type="text" name="email" onkeyup="isValidEmail(this.value)" placeholder="E-mail"/><div class="emailError"></div>
+			<input type="password" name="password" onkeyup="isValidPassword(this.value)" placeholder="Password"/><div class="passError"></div>
+			<input type="password" name="confirmPassword" placeholder="Confirm Password"/><div class="confirmPassError"></div>
+			
+			Gender
+			<div>
+					<input type="radio" name="gender" value="Male"/>Male
+					<input type="radio" name="gender" value="Female"/>Female
+					<input type="radio" name="gender" value="Other"/>Other
+			</div><div class="genderErrorObj"></div>
+			
+			Date of Birth
+			<div>
+					<select name="dobDay"/>
+							<option>
+							</option>
+							<script> 
+								for(var i=1;i<32;i++) {
+									document.write(
+									"<option>"+i+"</option>");
+								 } 
+							</script>
+					<select/>/
+					<select name="dobMonth"/>
+							<option>
+							</option>
+							<script> 
+								for(var i=1;i<13;i++) {
+									document.write(
+									"<option>"+i+"</option>");
+								 } 
+							</script>
+					<select/>/
+					
+					<select name="dobYear"/>
+							<option>
+							</option>
+							<script> 
+								for(var i=1900;i<2016;i++) {
+									document.write(
+									"<option>"+i+"</option>");
+								 } 
+							</script>
+					<select/>
+					(dd/mm/yyyy)
+			</div><div class="dateError"></div>
+			</br>
+					Type
+					<select name="type" onchange="isValidType(this.value)"/>
+							<option>
+							</option>
+							<option>
+							Customer
+							</option>
+							<option>
+							Accountant
+							</option>
+							<option>
+							Marketer
+							</option>
+							<option>
+							Salesman
+							</option>
+					<select/>
+					<div class="typeError"></div>
+			</br>
+			</br>
+			<input type="submit" name="Submit" value="Confirm" onclick="f()"></br></br>
+			<a href='?guest_login'>
+				Already have an account? Sign in!
+			</a>
+		</form>
+	</div>
+	</body>
+<script src="app/lib/signupValidator.js"></script>
+<script>
+	function f()
+	{	
+		var formObj = document.getElementsByTagName("form")[0];
+		var nameObj= document.getElementsByName("name")[0];
+		var emailObj= document.getElementsByName("email")[0];
+		var passwordObj= document.getElementsByName("password")[0];
+		var confirmPasswordObj= document.getElementsByName("confirmPassword")[0];
+		var genderObj=document.getElementsByName('gender');
+		var dobDayObj= document.getElementsByName("dobDay")[0];
+		var dobMonthObj= document.getElementsByName("dobMonth")[0];
+		var dobYearObj= document.getElementsByName("dobYear")[0];
+		var typeObj= document.getElementsByName("type")[0];
+		
+		
+		if(!isValidName(nameObj.value))
+		{
+			return false;
+		}
+		if(!isValidEmail(emailObj.value))
+		{
+			return false;
+		}
+		if(!isValidPassword(passwordObj.value))
+		{
+			return false;
+		}
+		if(!isPasswordConfirmed(passwordObj.value,confirmPasswordObj.value))
+		{
+			return false;
+		}
+		if(!isGenderSelected(genderObj))
+		{
+			return false;
+		}
+		if(!isValidDate(dobDayObj.value,dobMonthObj.value,dobYearObj.value))
+		{
+			return false;
+		}
+		if(!isValidType(typeObj.value))
+		{
+			return false;
+		}
+		formObj.submit();
+		return true;
+	}
+	function nameCheck(name)
+	{
+		var nameErrorObj= document.getElementsByClassName("nameError")[0];
+		var myRegEx= new RegExp('^[a-zA-Z ]*$');
+		if(!myRegEx.test(name)) {
+		nameErrorObj.innerText="Name should contain 2 words, only letters,'-' and '.' are allowed";
+		}
+		else{
+		nameErrorObj.innerText="";
+		}
+	}
+	function login()
+	{
+		location = "?guest_login";
+	}
+	function close(){
+		location = "?guest_signup";
+	}
+</script>
+	
+</html>

@@ -1,0 +1,145 @@
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+
+	<head>
+		<title>Modify Product</title>
+	</head>
+	
+	<body>
+	<form enctype="multipart/form-data" method="POST" onsubmit="return f();">
+		<table align="center">
+			
+			<tr>
+				<th colspan="1">Product Name<div name="productNameErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="name" type="text" size='100' />
+				</td>
+				
+			</tr>
+			<tr>
+				<th colspan="1">Description<div name="productDescriptionErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="description" type="text" size='100' />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Price<div name="productPriceErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="price" type="text" size='100' />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Color<div name="productColorErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="color" type="text" size='100' />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Type<div name="productTypeErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<select name="type">
+						<option></option>
+						<option value="Men\'s Shirt">Men's Shirt</option>
+						<option value="Women\'s Shirt">Women's Shirt</option>
+						<option value="Men\'s T-shirt">Men's T-shirt</option>
+						<option value="Women\'s T-shirt">Women's T-shirt</option>
+						<option value="Men\'s Pant">Men's Pant</option>
+						<option value="Women\'s Pant">Women's Pant</option>
+						<option value="Women\'s Dress">Women's Dress</option>
+						<option value="Men\'s Shoes">Men's Shoes</option>
+						<option value="Women\'s Shoes">Women's Shoes</option>
+						<option value="Men\'s Panjabi">Men's Panjabi</option>
+						<option value="Women\'s Three-Piece">Women's Three-Piece</option>
+						<option value="Women\'s Saree">Women's Saree</option>
+						<option value="Children\'s Dress">Children's Dress</option>
+						<option value="Accessories">Accessories</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Add More Photos<div name="productFileErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input type="file" name="pic" />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Delete Photos(Click on a photo to delete it, click again to undo)<div name="deletePhotosErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						for(var index in product.images)
+						{
+							document.write('<button type="button" onclick="removeImage('+index+',this)"><img src="'+product.images[index]+'" alt="HTML tutorial" style="width:250px;height:250px;border:0;"/></button>');
+						}
+					</script>
+				</td>
+			</tr>			
+			<tr>
+				<td colspan="1" align="middle">
+				<input type="submit" name="login" value="Confirm Changes" onclick="f()">
+				<input type="button" onClick="location.reload()" value="reset"/>
+				</td>
+			</tr>
+		</table>
+			<input type="hidden" name="deleteImagesLoc"/>
+	</form>
+	</body>
+
+	<div align="center">
+
+	</div>	
+
+<script>
+
+	var productNameObj= document.getElementsByName("name")[0];
+	productNameObj.value=product.name;
+	var productDescriptionObj= document.getElementsByName("description")[0];
+	productDescriptionObj.value=product.description;
+	var productPriceObj= document.getElementsByName("price")[0];
+	productPriceObj.value=product.price;
+	var productColorObj= document.getElementsByName("color")[0];
+	productColorObj.value=product.color;
+	var productTypeObj= document.getElementsByName("type")[0]; 
+	var deleteImagesLoc=[];
+	
+	function removeImage(index,buttonObj)
+	{
+		var imageLocation = product.images[index];
+		var key = deleteImagesLoc.indexOf(imageLocation);
+		if(key==-1) 
+		{
+			deleteImagesLoc.push(imageLocation);
+			buttonObj.style.background='Red';
+		}
+		else 
+		{
+			deleteImagesLoc.splice(key, 1);
+			buttonObj.style.background='';
+		}
+		console.log(deleteImagesLoc);
+	}
+	
+	function f(){
+		var productTypeObj= document.getElementsByName("type")[0]; 
+		var hiddenTypeObi= document.getElementsByName("deleteImagesLoc")[0];
+		hiddenTypeObi.value = deleteImagesLoc;
+        formObj = document.getElementsByTagName("form")[0];
+		if(productTypeObj.value!=""){
+		formObj.submit();
+		return true;
+		}
+		else return false;
+      }
+</script>	

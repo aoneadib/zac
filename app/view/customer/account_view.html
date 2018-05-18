@@ -1,0 +1,96 @@
+<link rel="stylesheet" type="text/css" href="design/accountTableStyle.css">
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<body>
+
+	<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want generate a report?</h2>
+		</div>
+		<div class="modal-body">
+		  <p><input type="button" onclick="confirm()" value="YES"></p>
+		  <p><input type="button" onclick="closeModal()" value="NO"></p>
+		</div>
+	  </div>
+
+	</div>
+	<table class="rootTable" align="center">
+		<tbody>
+			<tr>
+				<th colspan="2">Account Management</th>
+			</tr>
+			<tr>
+				<th id="view" colspan="2"></th>
+			</tr>
+				<tr>
+					<td class="sidebar"></td>
+					<td><p id="errorMsg"></p></td>
+				</tr>			
+			<tr>
+				<td class="sidebar"><a href="?customer_account_Info">Account Info</a></td>
+				<td rowspan="3">
+						<div id="accountTabView">
+						</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="sidebar"><a href="?customer_account_Orders">Order History</a></td>
+			</tr>
+			<tr>
+				<td class="sidebar"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+<script>
+	function displayAccountInfo()
+	{
+		var tableDivObj = document.getElementById("accountTabView");
+		tableHTML = '<table name="accountInfoTable" class="childTable" border="1"><tbody>';
+		tableHTML +='<tr name="Name"><th>Name: </th><td>'+user['name']+'</td><td><input type="button" onClick="change(\'Name\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Email"><th>E-mail: </th><td>'+user['email']+'</td><td><input type="button" onClick="change(\'Email\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Password"><th>Password: </th><td>'+user['password']+'</td><td><input type="button" onClick="change(\'Password\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Gender"><th>Gender: </th><td>'+user['gender']+'</td><td><input type="button" onClick="change(\'Gender\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Date"><th>Date of Birth: </th><td>'+user['dobday']+'/'+user['dobmonth']+'/'+user['dobyear']+'</td><td><input type="button" onClick="change(\'Date\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Phone"><th>Phone No.: </th><td>'+user['phoneno']+'</td><td><input type="button" onClick="change(\'Phone\')" value="Change"></td></tr>';
+		tableHTML +='</tbody></table>';
+		tableDivObj.innerHTML = tableHTML;
+		return tableHTML;
+	}
+	function displayOrderInfo()
+	{
+	var htmlElement="";
+	if(!isOrderEmpty)
+	{
+	htmlElement+=('<table class="childTable" border="1">'+
+			'<thead></tr>'
+			+'<th>Order Id</th>'
+			+'<th>Item Names</th>'
+			+'<th>Item IDs</th>'
+			+'<th>Order Date</th>'
+			+'<th>Order Time</th>'
+			+'<th>Order Status</th>'
+			+'<th>Bill</th>'+
+		'</tr></thead><tbody>');
+	for(var index in orders){
+	htmlElement+=(
+	'<tr><td>'+orders[index]['id']+'</td>'+
+	'<td>'+orders[index]['item_names']+'</td>'+
+	'<td>'+orders[index]['item_ids']+'</td>'+
+	'<td>'+orders[index]['date']+'</td>'+
+	'<td>'+orders[index]['time']+'</td>'+
+	'<td>'+orders[index]['status']+'</td>'+
+	'<td>'+orders[index]['bill']+'</td></tr>');
+	}
+	htmlElement+=('</tbody></table>');
+	}
+	else
+	{
+		htmlElement+=("There are no orders to show.");
+	}
+	return htmlElement;
+	}
+</script>

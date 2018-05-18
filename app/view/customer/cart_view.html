@@ -1,0 +1,98 @@
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<html>
+<body>
+
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want to remove this item?</h2>
+		</div>
+		<div class="modal-body">
+		  <input type="button" onclick="confirmRemove()" value="YES">
+		  <input type="button" onclick="undoDelete()" value="NO">
+		</div>
+	  </div>
+
+	</div>
+	<br/>
+	
+	<div id="productsList">
+	<table border="2" align="center">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Type</th>
+				<th>Color</th>
+				<th>Price</th>
+				<th>Description</th>
+				<th>Action</th>
+			</tr>
+			<script>
+				if(products[0].name!=" "){
+					for(var index in products){
+					document.write(
+								'<tr>'+
+								'<td>'+products[index].id+'</td>'+
+								'<td>'+products[index].name+'</td>'+
+								'<td><img src="'+products[index].image+'"></td>'+
+								'<td>'+products[index].type+'</td>'+
+								'<td>'+products[index].color+'</td>'+
+								'<td>'+products[index].price+'</td>'+
+								'<td>'+products[index].description+'</td>'+
+								'<td><input type="button" onclick="removeItem('+index+')" value="Remove Item"></td>'+
+								'</tr>');
+					}
+					}
+				else
+				{
+					document.write('<p align="center"><span class="message">No results found!</span></p>');
+				}
+			</script>
+		</thead>
+	</table>
+	</div>
+	
+</body>
+</html>
+	</br><input type="button" onclick="checkout()" value="Proceed to Checkout"/>
+	
+<script>
+	var removeItemId;
+	var modal = document.getElementById('myModal');
+	function removeItem(index)
+	{
+		window.removeItemId=index;
+		var modal = document.getElementById('myModal');
+		modal.style.display = "block";
+	}
+	function confirmRemove()
+	{
+		var req = new XMLHttpRequest();
+		req.open("GET", "?customer_removeFromCart_"+window.removeItemId, true);
+		req.send();
+		  req.onreadystatechange = function (){
+			  if(req.readyState==4){
+					console.log(window.removeItemId);
+					modal.style.display = "none";
+					location.reload();
+			  }
+		  }
+	}
+	function undoDelete()
+	{
+		var modal = document.getElementById('myModal');
+		modal.style.display = "none";
+	}
+	function checkout()
+	{
+		if((!cartEmpty))
+		{
+			location.href="?customer_checkout";
+		}
+	}
+</script>

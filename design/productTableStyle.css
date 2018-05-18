@@ -1,0 +1,15 @@
+.productTable{
+	background-color:rgba(52, 73, 94, 0.4);
+}
+.title{
+    background-color: #00BFFF;
+	color: white;
+}
+.similarProductsTable{
+	width:100%;
+	background-color:rgba(52, 73, 94, 0.1);
+}
+.similarProductsTable th{
+    background-color: #4CAF50;
+	color: white;
+}

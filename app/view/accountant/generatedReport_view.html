@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="design/reportStyle.css">
+<html>
+	<head>
+	</head>
+	<body>
+		<table>
+			<thead>
+				<tr><td class="head" colspan="4">Sub-Urban Clothing Line</td></tr>
+				<tr><td class="head" colspan="4">Income Statement</td></tr>
+				<tr><td class="head" colspan="4">For the month ended, <script>document.write(reportMonth+', '+reportYear);</script></td></tr>
+				<tr class="title"><td>Revenue</td><td></td><td></td><td></td></tr>
+			</thead>
+			<tbody>
+				<script>
+					for(var account in debitEntries){
+						document.write('<tr><td class="title"></td><td class="account">'+account+'</td><td class="amount"></td><td class="amount">'+debitEntries[account]+'</td></tr>');
+						}
+				</script>
+			<thead>
+				<tr><td class="title">Expenses</td><td></td><td></td><td></td></tr>
+			</thead>
+				<script>
+					for(var account in creditEntries){
+						document.write('<tr><td class="title"></td><td class="account">'+account+'</td><td class="amount">'+creditEntries[account]+'</td><td class="amount"></td></tr>');
+				}
+				</script>
+			<tr class="title"><td>Total Revenue</td><td></td><td></td><td><script>document.write(totalRev);</script></td></tr>
+			<tr class="title"><td>Total Expense</td><td></td><td></td><td><script>document.write(totalExp);</script></td></tr>
+			<tr class="title"><td></td><td><br/></td><td></td><td></td></tr>
+			<tr class="title"><td>Net Income/Loss</td><td></td><td></td><td><script>document.write(net);</script></td></tr>
+			</tbody>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,90 @@
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<html>
+	<body>
+	
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want to remove this order?</h2>
+		</div>
+		<div class="modal-body">
+		  <p><input type="button" onclick="confirmRemove()" value="YES"></p>
+		  <p><input type="button" onclick="undoDelete()" value="NO"></p>
+		</div>
+	  </div>
+
+	</div>
+	
+	<form method="post">
+	<br>
+	<div align="center" class="status">
+		Status:
+		<select onchange="location = this.value;">
+			<option value="?salesman_orders_pending"><script>document.write(view);</script></option>
+			<option value="?admin_manageAccounts_all">All</option>
+			<option value="?admin_manageAccounts_valid">Valid</option>
+			<option value="?admin_manageAccounts_invalid">Invalid</option>
+		</select>
+		<input type="submit" value="Confirm Changes"/>
+	</div>
+	</br>
+		<div id="accountView">
+		<script>
+		document.write('<table align="center" border="1">'+
+		'<thead></tr>'
+				+'<th>Account ID</th>'
+				+'<th>Name</th>'
+				+'<th>E-mail</th>'
+				+'<th>Date of Birth</th>'
+				+'<th>Phone No.</th>'
+				+'<th>Type</th>'
+				+'<th>Status</th>'
+				+'<th>Change Status</th>'+
+			'</tr></thead><tbody>');
+		for(var index in users){
+		document.write(
+		'<tr><td>'+users[index]['id']+'</td>'+
+		'<td>'+users[index]['name']+'</td>'+
+		'<td>'+users[index]['email']+'</td>'+
+		'<td>'+users[index]['dobday']+'/'+users[index]['dobmonth']+'/'+users[index]['dobyear']+'</td>'+
+		'<td>'+users[index]['phoneno']+'</td>'+
+		'<td>'+users[index]['Type']+'</td>'+
+		'<td>'+users[index]['status']+'</td>'+
+		'<td><select name="'+users[index]['id']+'"><option></option><option>VALID</option><option>INVALID</option></select></td></tr>');
+		}
+		document.write('</tbody></table>');
+		</script>
+		</div>
+	</form>
+	</body>
+</html>
+
+<script>
+	<!-- var orderId = null; -->
+	<!-- function removeOrder(orderId) -->
+	<!-- { -->
+		<!-- window.orderId=orderId; -->
+		<!-- var modal = document.getElementById('myModal'); -->
+		<!-- modal.style.display = "block"; -->
+	<!-- } -->
+	<!-- function confirmRemove() -->
+	<!-- { -->
+		<!-- var req = new XMLHttpRequest(); -->
+		<!-- req.open("GET", "?salesman_removeOrder_"+window.orderId, true); -->
+		<!-- req.send(); -->
+		<!-- req.onreadystatechange = function (){ -->
+			<!-- if(req.readyState==4){ -->
+				<!-- location.reload(); -->
+			<!-- } -->
+		<!-- }	 -->
+	<!-- } -->
+	<!-- var span = document.getElementsByClassName("close")[0]; -->
+	
+	<!-- function undoDelete() { -->
+	<!-- var modal = document.getElementById('myModal'); -->
+    <!-- modal.style.display = "none"; -->
+	<!-- } -->
+</script>

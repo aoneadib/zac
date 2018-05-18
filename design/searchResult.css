@@ -1,0 +1,23 @@
+.searchResultTable{
+	background-color:white;
+	width:100%;
+}
+tr{
+	height:10%;
+}
+.searchResultTable img{
+	height:200px;
+	width:200px;	
+}
+.imgTd{
+	height:200px;
+	width:200px;
+}
+.message{
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: red;
+	margin: auto;
+    padding: 15px;
+}

@@ -1,0 +1,84 @@
+<link rel="stylesheet" type="text/css" href="design/accountingTableStyle.css">
+<script>
+	function showOrders()
+	{
+		var monthObj= document.getElementsByName('month')[0];
+		var yearObj= document.getElementsByName('year')[0];
+		var req = new XMLHttpRequest();
+		req.open("GET", "?accountant_showOrder_"+monthObj.value+"_"+yearObj.value, true);
+		req.send();
+		req.onreadystatechange = function (){
+			if(req.readyState==4){
+				console.log((req.responseText.split(/\r?\n/).pop().trim()));
+				console.log((req.responseText));
+				orders=JSON.parse(req.responseText.split(/\r?\n/).pop().trim());
+				document.getElementById("accountView").innerHTML=displayElement();
+			}
+		}
+	}
+	function displayElement()
+	{
+			var htmlElement='<div align="center" class="status">'+'<span>Month:<select name="month">';
+			htmlElement+=('<option></option>');
+			for(var i=1;i<13;i++)
+			{
+				htmlElement+=('<option>'+i+'</option>');
+			}
+			htmlElement+='</select>';
+			htmlElement+='Year:<select name="year">';
+			htmlElement+=('<option></option>');
+			var year= new Date();
+			for(i=2012;i<=year.getFullYear();i++)
+				{
+					htmlElement+=('<option>'+i+'</option>');
+				}
+			htmlElement+='</select><input type="button" value="Show" onClick="showOrders()"></span></div>';
+			htmlElement+=('<table align="center" border="1" class="childTable">'+
+				'<thead></tr>'
+					+'<th>Order Id</th>'
+					+'<th>Item Names</th>'
+					+'<th>Item IDs</th>'
+					+'<th>Order Date</th>'
+					+'<th>Order Time</th>'
+					+'<th>Order Status</th>'
+					+'<th>Bill</th>'+
+				'</tr></thead><tbody>');
+				for(var index in orders){
+					htmlElement+=('<tr><td>'+orders[index]['id']+'</td>'+
+					'<td>'+orders[index]['item_names']+'</td>'+
+					'<td>'+orders[index]['item_ids']+'</td>'+
+					'<td>'+orders[index]['date']+'</td>'+
+					'<td>'+orders[index]['time']+'</td>'+
+					'<td>'+orders[index]['status']+'</td>'+
+					'<td>'+orders[index]['bill']+'</td></tr>');
+					}
+				htmlElement+=('</tbody></table>');
+			return htmlElement;
+	}
+</script>
+
+<body>
+	<table align="center" class="rootTable">
+		<tbody>
+			<tr>
+				<th></th>
+				<th><script>document.write(accountingView);</script></th>
+			</tr>
+			<tr>
+				<th><span style="background-color:orange;font-weight:bold;padding:10px"><a href="?accountant_accounting_Orders">Orders</a></span></th>
+				<td rowspan="2">
+						<div id="accountView">
+						</div>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span style="background-color:orange;font-weight:bold;padding:10px">
+						<a href="?accountant_accounting_Report">Report</a>
+					</span>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+</body>
+

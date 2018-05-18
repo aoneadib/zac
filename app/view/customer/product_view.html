@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<script>
+	function addToCart()
+	{
+		var divObj = document.getElementById("added");
+		var req = new XMLHttpRequest();
+		req.open("GET", "?customer_addToCart_"+product.id, true);
+		req.send();
+		  req.onreadystatechange = function (){
+			  if(req.readyState==4){
+				  alert("Product Added To Cart");
+			  }
+		  }
+	}
+</script>
+<body>
+	<script type="text/javascript">
+	document.write(
+	'<img src="'+product.image+'" alt="HTML tutorial" style="width:250px;height:250px;border:0;">'+
+	'</br>'+'Name:'+product.name+
+	'</br>'+'Type:'+product.type+
+	'</br>'+'Color:'+product.color+
+	'</br>'+'Price:'+product.price+
+	'</br>'+'Description:'+product.description);
+	</script>
+	</br>
+	<input type="button" onclick="addToCart()" value="Add To Cart"/>
+</body>
+</html>

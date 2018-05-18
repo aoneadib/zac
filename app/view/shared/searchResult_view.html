@@ -1,0 +1,27 @@
+
+<link rel="stylesheet" type="text/css" href="design/searchResult.css">
+<body>
+	<table class="searchResultTable" border="1">
+		<tbody>
+			<script>
+				if(products[0].name!=" "){
+				for(var index in products){
+				document.write(
+							'<tr><td class="imgTd">'
+							+'<a href="?'+userType+'_product_'+products[index].id+'"><img src="'+products[index].image+'"></a></td><td><l1>'
+							+products[index].name+'</l1>'+
+							'<br/><l2>Price:'+products[index].price+'<br/>'+
+							'<br/><l2>Type:'+products[index].type+'<br/>'+
+							'<br/><l2>Color:'+products[index].color+'<br/>'+
+							'<br/><l2>Description:'+products[index].description+
+							'</l2></td></tr>');
+				}
+				}
+				else
+				{
+					document.write('<p align="center"><span class="message">No results found!</span></p>');
+				}
+			</script>
+		</tbody>
+	<table>
+</body>

@@ -1,0 +1,111 @@
+
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<link rel="stylesheet" type="text/css" href="design/regStyle.css">
+<html>
+	<body>
+	<script src="app/lib/checkOutHelper.js"></script>
+	<script>
+	function confirm()
+	{
+		var area=document.getElementsByName("Area")[0].value;
+		var road=document.getElementsByName("RoadNo")[0].value;
+		var houseNo=document.getElementsByName("HouseNo")[0].value;
+		var phoneNo=document.getElementsByName("PhoneNo")[0].value;
+		var deliveryType=document.getElementsByName("DeliveryType")[0].value;
+		var error1=document.getElementById("addressLegend");
+		error1.innerText="Address:"
+		var error2=document.getElementById("PhoneError");
+		error2.innerText=""
+		var error3=document.getElementById("DeliveryError");
+		error3.innerText=""
+		if((!cartEmpty))
+		{
+			if(!isValidAddress(area,road,houseNo)) 
+			{
+				error1.innerText="Address *Each information is required";
+				return false;
+			}
+			else if(!isValidPhoneNo(phoneNo)) 
+			{
+				error2.innerText="*Enter a valid phone number.";
+				return false;
+			}
+			else if(!isValidDeliveryType(deliveryType)) 
+			{
+				error3.innerText="*Select a delivery option.";
+				return false;
+			}
+			else 
+			{
+				var formObj = document.getElementsByTagName("form")[0];
+				formObj.submit();
+				return true;
+			}
+		}
+	}
+	</script>
+	<div id="cart" align="center">
+	<div id="productsList">
+	<table border="2" align="center">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Type</th>
+				<th>Color</th>
+				<th>Price</th>
+			</tr>
+			<script>
+				if(!cartEmpty){
+					for(var index in products){
+					document.write(
+								'<tr>'+
+								'<td>'+products[index].id+'</td>'+
+								'<td>'+products[index].name+'</td>'+
+								'<td><img src="'+products[index].image+'"></td>'+
+								'<td>'+products[index].type+'</td>'+
+								'<td>'+products[index].color+'</td>'+
+								'<td>'+products[index].price+'</td>'+
+								'</tr>');
+					}
+				document.write(
+								'<tr>'+
+								'<td></td>'+
+								'<td></td>'+
+								'<td></td>'+
+								'<td></td>'+
+								'<td>Grand Total</td>'+
+								'<td>'+totalPrice+'</td>'+
+								'</tr>');					
+					}
+				else
+				{
+					document.write('<p align="center"><span class="message">No results found!</span></p>');
+				}
+			</script>
+		</thead>
+	</table>
+	</div>
+	</div>
+	<div class="wrapper">
+		<form method="post" onsubmit="return confirm();">
+			<fieldset value="Address">
+				<legend id="addressLegend">Address</legend>
+				Area: <input name="Area"/><br/><br/>
+				Road No.: <input name="RoadNo"/><br/><br/>
+				House No.: <input name="HouseNo"/><br/><br/>
+			</fieldset>
+			<br/>Phone No.: 
+				<input name="PhoneNo"/><p id="PhoneError"></p><br/>
+			Delivery Type: 
+				<select name="DeliveryType">
+							<option></option>
+							<option>Cash on Delivery</option>
+							<option>Bkash</option>
+				</select><p id="DeliveryError"></p><br/>
+			</br><input type="submit" name="Submit" value="Confirm" onclick="confirm()">
+		</form>
+	</div>
+	</body>
+</html>

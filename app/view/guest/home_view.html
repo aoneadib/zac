@@ -1,0 +1,12 @@
+<html>
+	<body>
+	<script>
+    for(var index in products){
+	document.write(
+		'</br><div><a href="?guest_product_'+products[index].id+'">'+
+		'<img src="'+products[index].image+'" alt="HTML tutorial" style="width:250px;height:250px;border:0;"></a></br>'+
+		products[index].name+'| Price: '+products[index].price+'</div>');
+	}
+	</script>
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<html>
+	<body>
+	
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want to remove this order?</h2>
+		</div>
+		<div class="modal-body">
+		  <p><input type="button" onclick="confirmRemove()" value="YES"></p>
+		  <p><input type="button" onclick="undoDelete()" value="NO"></p>
+		</div>
+	  </div>
+
+	</div>
+	
+	<form method="post">
+	<br>
+	<div align="center" class="status">
+		Status:
+		<select onchange="location = this.value;">
+			<option value="?salesman_orders_pending"><script>document.write(view);</script></option>
+			<option value="?salesman_orders_all">All</option>
+			<option value="?salesman_orders_pending">Pending</option>
+			<option value="?salesman_orders_unpaid">Unpaid</option>
+			<option value="?salesman_orders_paid">Paid</option>
+		</select>
+		<input type="submit" value="Confirm Changes"/>
+	</div>
+	</br>
+		<div id="accountView">
+		<script>
+		if(!isOrderEmpty)
+		{
+		document.write('<table align="center" border="1">'+
+		'<thead></tr>'
+				+'<th>Order Id</th>'
+				+'<th>Item IDs</th>'
+				+'<th>Customer Name</th>'
+				+'<th>Customer Phone No.</th>'
+				+'<th>Delivery Address</th>'
+				+'<th>Order Date</th>'
+				+'<th>Order Time</th>'
+				+'<th>Order Status</th>'
+				+'<th>Delivery Type</th>'
+				+'<th>Bill</th>'
+				+'<th>Change Status</th>'
+				+'<th>Action</th>'+
+			'</tr></thead><tbody>');
+		for(var index in orders){
+		document.write(
+		'<tr><td>'+orders[index]['id']+'</td>'+
+		'<td>'+orders[index]['item_ids']+'</td>'+
+		'<td>'+orders[index]['customer_name']+'</td>'+
+		'<td>'+orders[index]['customer_phone']+'</td>'+
+		'<td>'+orders[index]['customer_address']+'</td>'+
+		'<td>'+orders[index]['date']+'</td>'+
+		'<td>'+orders[index]['time']+'</td>'+
+		'<td>'+orders[index]['status']+'</td>'+
+		'<td>'+orders[index]['delivery_type']+'</td>'+
+		'<td>'+orders[index]['bill']+'</td>'+
+		'<td><select name="'+orders[index]['id']+'"><option></option><option>PENDING</option><option>UNPAID</option><option>PAID</option></select></td>'+
+		'<td><input type="button" onclick="removeOrder('+orders[index]['id']+')" value="Remove"/></td></tr>');
+		}
+		document.write('</tbody></table>');
+		}
+		else
+		{
+			document.write('<p align="center"><span class="message">Could not find any order of the specified status!</span></p>');
+		}
+		</script>
+		</div>
+	</form>
+	</body>
+</html>
+
+<script>
+	var orderId = null;
+	function removeOrder(orderId)
+	{
+		window.orderId=orderId;
+		var modal = document.getElementById('myModal');
+		modal.style.display = "block";
+	}
+	function confirmRemove()
+	{
+		var req = new XMLHttpRequest();
+		req.open("GET", "?salesman_removeOrder_"+window.orderId, true);
+		req.send();
+		req.onreadystatechange = function (){
+			if(req.readyState==4){
+				location.reload();
+			}
+		}	
+	}
+	var span = document.getElementsByClassName("close")[0];
+	
+	function undoDelete() {
+	var modal = document.getElementById('myModal');
+    modal.style.display = "none";
+	}
+</script>

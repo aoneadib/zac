@@ -1,0 +1,86 @@
+body {
+	background-image: url("../images/clothes.jpg");
+	background-size: 100%
+	font: 1em/1.5 sans-serif;
+}
+.wrapper
+{
+	width:50%;
+	background-color: rgba(80, 30, 50, 0.4);
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	filter:alpha (opacity=70); /*IE8 earler */
+}
+body{
+	color:black;
+}
+h1 {
+	text-align: center;
+	font-size: 50px;
+	color: black;
+}
+h2 {
+	text-align: center;
+	font-size: 30px;
+	color: black;
+}
+form {
+	margin: 30px auto; /*header theke form er gap*/
+	width: 200px;	/*side theke form er gap*/
+	color: black;	/*form er color*/
+}
+input {
+	padding: 10px;  /*box er size*/
+	font-size:inherit; /*can add pixel if you want*/
+}
+input[type="text"] {
+	display: block;
+	margin-bottom: 20px; /*box er majhe gap*/
+	width: 100%;	/*box er length*/
+	border: 3px solid steelblue; /*box er border er size and color*/
+}
+input[type="password"] {
+	display: block;
+	margin-bottom: 20px; /*box er majhe gap*/
+	width: 100%;	/*box er length*/
+	border: 3px solid steelblue  /*box er border er size and color*/
+}
+input[type="email"] {
+	display: block;
+	margin-bottom: 20px; /*box er majhe gap*/
+	width: 100%;	/*box er length*/
+	border: 3px solid steelblue  /*box er border er size and color*/
+}
+input[type="radio"]{
+	margin: 0 15px 25px 18px;	/* radio button er ashe pasher size*/
+}
+input[type="radio"]:first child{
+	margin-left:0;
+}
+input[type="submit"]{
+	cursor:pointer;
+	border-radius: 4px;
+	border:none;
+	background: steelblue;
+	color: white;
+}
+input[type="reset"]{
+	cursor:pointer;
+	border-radius: 4px;
+	border:none;
+	background: steelblue;
+	color: white;
+}
+input:focus{
+	background:white; /*box er bhetor color jeta deoa oita hobe click korle */
+}
+input[type="radio"]:checked + label{
+	font-weight:bold;
+	font-size:18px;
+}
+.nameError,.passError,.emailError,.confirmPassError,.genderErrorObj,.dateError,.typeError{
+	color:red;
+}
+	
+	

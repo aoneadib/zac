@@ -1,0 +1,36 @@
+<html>
+	<body>
+		<div id="slider">
+			<figure>
+			<script>
+			for(var index in promotionImages)
+			{
+				document.write('<div class="slide">'+
+								'<img src="'+promotionImages[index]+'">'+
+								'</div>');
+			}
+			</script>
+			</figure>
+		</div>
+	
+	<link rel="stylesheet" type="text/css" href="design/homestyle.css">	
+	<div class="container">
+	<script>
+	if(products[0].name!=" "){
+    for(var index in products){
+	document.write(
+				'<div class="picture frame">'+
+				'<a href="?'+userType+'_product_'+products[index].id+'">'+
+				'<l1>'+products[index].name+'</l1>'+
+				'<br><l2>Price:'+products[index].price+
+				'</l2><img src="'+products[index].image+'"></a></div>');
+	}
+	}
+	else
+	{
+		document.write('<br/><p align="center">Could not find any related product.</p>');
+	}
+	</script>
+	</div>
+	</body>
+</html>

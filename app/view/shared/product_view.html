@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<style>
+.entry img{
+	height:250px;
+	width:250px;
+	transitionEffect: false;
+}
+.desc img{
+	height:80px;
+	width:80px;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<link rel="stylesheet" type="text/css" href="design/homestyle.css">	
+<link rel="stylesheet" type="text/css" href="design/productTableStyle.css">		
+	
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2 id="modalHeaderMessage"></h2>
+		</div>
+		<div class="modal-body">
+		</div>
+	  </div>
+
+	</div>
+<body>
+<div id="content">
+	
+	<div class="entry">
+	
+		<table class="productTable" border="0" width="100%">
+		<tr>
+			<td colspan="2"><h1 class="title"><a><script>document.write(product.name);</script></a></h1></td>
+		</tr>
+			<tr valign="top">
+				<td width="350">
+				<script>
+					document.write('<div><img src="'+product.images[0]+'" name="Image1" width="200" id="Image1"></div></br>');
+				</script>
+		<div class="desc">		
+	<script type="text/javascript">
+	for(var index in product.images)
+	{
+	console.log(index);
+	document.write('<img src="'+product.images[index]+'" onMouseOver="MM_swapImage(\'Image1\',\'\',\''+product.images[index]+'\',1)" onMouseOut="MM_swapImgRestore()">');
+	}
+	</script>	
+		</div>
+			  <td>
+					<b>Name : </b>
+					<hr /><script>document.write(product.name);</script>
+					<br /><br />
+					
+					<b>Type : </b>
+					<hr /><script>document.write(product.type);</script>
+					<br /><br />
+					
+					<b>Description : </b>
+					<hr /><script>document.write(product.description);</script>
+					<br /><br />
+					
+					<b>Color : </b>
+					<hr /><script>document.write(product.color);</script>
+					<br /><br />
+					
+					<b>Price : </b>
+					<hr /><script>document.write(product.price);</script>
+					<br /><br />
+					<input type="button" onclick="addToCart()" value="Add To Cart"/>
+			</tr>
+		</table>
+	</div>
+<div style="clear: both;">&nbsp;</div>
+
+<table class="similarProductsTable">
+<tr>
+<th>You May Also Like:
+</tr>
+<tr>
+<td>
+</div>	
+	<div class="container">
+	<script>
+	if(similarProducts[0].name!=" "){
+    for(var index in similarProducts){
+	document.write(
+				'<div class="picture frame">'+
+				'<a href="?'+userType+'_product_'+similarProducts[index].id+'">'+
+				'<l1>'+similarProducts[index].name+'</l1>'+
+				'<br><l2>Price:'+similarProducts[index].price+
+				'</l2><img src="'+similarProducts[index].image+'"></a></div>');
+	}
+	}
+	</script>
+	</div>
+<td>
+</tr>
+</table>
+</body>
+
+<script>
+
+	function MM_preloadImages() { //v3.0
+	  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+		var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+		if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+	}
+
+	function MM_swapImgRestore() { //v3.0
+	  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+	}
+
+	function MM_findObj(n, d) { //v4.01
+	  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+		d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+	  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+	  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+	  if(!x && d.getElementById) x=d.getElementById(n); return x;
+	}
+
+	function MM_swapImage() { //v3.0
+	  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+	   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+	}
+
+	var modal = document.getElementById('myModal');
+	function handleNonCustomer()
+	{
+		modalHeaderMessageObj = document.getElementById('modalHeaderMessage');
+		modalHeaderMessageObj.innerHTML= 'You have to log-in as a customer to access this feature!';
+		modalBodyMessageObj = document.getElementsByClassName('modal-body')[0];
+		modalBodyMessageObj.innerHTML= '<input type="button" onclick="goToLogin()" value="Log-in"/> <input type="button" onclick="closeModal()" value="Close"/>';
+		modal.style.display = "block";
+	}
+	function addToCart()
+	{
+		if(userType=='customer')
+		{
+		var divObj = document.getElementById("added");
+		var req = new XMLHttpRequest();
+		req.open("GET", "?customer_addToCart_"+product.id, true);
+		req.send();
+		  req.onreadystatechange = function (){
+			  if(req.readyState==4){
+				var header = document.getElementsByClassName('modal-header')[0];
+				header.style.backgroundColor='Green';
+				modalHeaderMessageObj = document.getElementById('modalHeaderMessage');
+				modalHeaderMessageObj.innerHTML= 'Product Added to Cart!';
+				modalBodyMessageObj = document.getElementsByClassName('modal-body')[0];
+				modalBodyMessageObj.innerHTML= '<input type="button" onclick="closeModal()" value="Close"/>';
+				modal.style.display = "block";
+			  }
+		  }
+		}
+		else
+		{
+			handleNonCustomer();
+		}
+	}
+
+	function goToLogin()
+	{
+		if(userType=="guest") location = "?guest_login";
+		else location = '?'+userType+'_logout';
+	}
+	function closeModal()
+	{
+		modal.style.display = "none";
+	}		
+</script>

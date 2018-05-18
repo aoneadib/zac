@@ -1,0 +1,121 @@
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<style>
+	table, th, td 
+		{
+			margin: 20px auto;
+			border: 1px solid black;
+			border-collapse: collapse;
+			border: 1px solid black;
+		}
+		th, td {
+			padding: 15px;
+		}
+		table 
+		{
+			border-spacing: 15px;
+		}
+</style>
+
+
+	<head>
+		<title>Modify Product</title>
+	</head>
+	
+	<body>
+	<form enctype="multipart/form-data" method="POST" onsubmit="return f();">
+		<table>
+			
+			<tr>
+				<th colspan="1">Product Name<div name="productNameErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="name" type="text" size='100' />
+				</td>
+				
+			</tr>
+			<tr>
+				<th colspan="1">Description<div name="productDescriptionErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="description" type="text" size='100' />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Price<div name="productPriceErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="price" type="text" size='100' />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Color<div name="productColorErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="color" type="text" size='100' />
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Type<div name="productTypeErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<select name="type">
+						<option></option>
+						<option value="Men\'s Shirt">Men's Shirt</option>
+						<option value="Women\'s Shirt">Women's Shirt</option>
+						<option value="Men\'s T-shirt">Men's T-shirt</option>
+						<option value="Women\'s T-shirt">Women's T-shirt</option>
+						<option value="Men\'s Pant">Men's Pant</option>
+						<option value="Women\'s Pant">Women's Pant</option>
+						<option value="Women\'s Dress">Women's Dress</option>
+						<option value="Men\'s Shoes">Men's Shoes</option>
+						<option value="Women\'s Shoes">Women's Shoes</option>
+						<option value="Men\'s Panjabi">Men's Panjabi</option>
+						<option value="Women\'s Three-Piece">Women's Three-Piece</option>
+						<option value="Women\'s Saree">Women's Saree</option>
+						<option value="Children\'s Dress">Children's Dress</option>
+						<option value="Accessories">Accessories</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Add Photos<div name="productFileErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input type="file" name="pic" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="1" align="middle">
+				<input type="submit" name="login" value="Confirm Changes" onclick="f()">
+				<input  type="button" onClick="location.reload()" value="reset"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</body>
+
+
+<script>
+
+	var productNameObj= document.getElementsByName("name")[0];
+	var productDescriptionObj= document.getElementsByName("description")[0];
+	var productPriceObj= document.getElementsByName("price")[0];
+	var productColorObj= document.getElementsByName("color")[0];
+	var productTypeObj= document.getElementsByName("type")[0]; 
+	
+	function f(){
+		var productTypeObj= document.getElementsByName("type")[0]; 
+        formObj = document.getElementsByTagName("form")[0];
+		if(productTypeObj.value!=""){
+		formObj.submit();
+		return true;
+		}
+		else return false;
+      }
+</script>	

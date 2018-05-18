@@ -1,0 +1,170 @@
+<link rel="stylesheet" type="text/css" href="design/accountingTableStyle.css">
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<body>
+
+	<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want generate a report?</h2>
+		</div>
+		<div class="modal-body">
+		  <p><input type="button" onclick="confirm()" value="YES"></p>
+		  <p><input type="button" onclick="closeModal()" value="NO"></p>
+		</div>
+	  </div>
+
+	</div>
+	<form method="post">
+	<table align="center" class="rootTable">
+		<tbody>
+			<tr>
+				<th></th>
+				<th><script>document.write(accountingView);</script></th>
+			</tr>
+			<tr>
+				<th></th>
+				<th><p id="errorMsg"></p></th>
+			</tr>
+				<tr>
+					<th colspan="5">
+						Month:
+						<select name="month">
+							<option></option>
+							<option>January</option>
+							<option>February</option>
+							<option>March</option>
+							<option>April</option>
+							<option>May</option>
+							<option>June</option>
+							<option>July</option>
+							<option>August</option>
+							<option>September</option>
+							<option>October</option>
+							<option>November</option>
+							<option>December</option>
+						</select>						
+						Year:
+						<select name="year">
+							<option></option>
+							<script>
+								var year= new Date();
+								for(var i=2012;i<=year.getFullYear();i++)
+								{
+									document.write('<option>'+i+'</option>')
+								}
+							</script>
+						</select>
+						<input type="button"  onClick="generateReport()" value="Generate Report">
+					</th>
+				</tr>			
+			<tr>
+				<th><span style="background-color:orange;font-weight:bold;padding:10px"><a href="?accountant_accounting_Orders">Orders</a></span></th>
+				<td rowspan="2">
+						<div id="accountView">
+						</div>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span style="background-color:orange;font-weight:bold;padding:10px">
+						<a href="?accountant_accounting_Report">Report</a>
+					</span>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+</body>
+
+<script>
+	var errorObj = document.getElementById("errorMsg");
+	var modal = document.getElementById('myModal');
+	function isValidNumber(entry)
+	{
+		var isValid=true;
+		var myRegEx= new RegExp('^[0-9]*$');
+		if(myRegEx.test(entry)) 
+		{
+			isValid=true;
+		}
+		else isValid=false;
+		if(isValid) errorObj.innerHTML="";
+		else errorObj.innerHTML="*Debit/Credit entry must be a valid number";
+		return isValid;
+	}
+	function addRow()
+	{
+		var table = document.getElementsByClassName("childTable")[0];
+		var row = table.insertRow();
+		row.innerHTML='<td><input name="date[]"></td>'+
+					'<td><input name="account[]"></td>'+
+					'<td><input type="checkbox"></td>'+
+					'<td><input name="debit[]"></td>'+
+					'<td><input name="credit[]"></td>';
+	}
+	function deleteRow()
+	{
+		var table = document.getElementsByClassName("childTable")[0];
+		if(table.rows.length>2) table.deleteRow();
+	}
+	function generateReport()
+	{
+		var submit=true;
+		errorObj.innerHTML="";
+		var month = document.getElementsByName("month")[0].value;
+		var year = document.getElementsByName("year")[0].value;
+		var accountObj = document.getElementsByName("account[]");
+		var debitObj = document.getElementsByName("debit[]");
+		var creditObj = document.getElementsByName("credit[]");
+		
+		for(var i=0;i<accountObj.length;i++)
+		{
+			if(accountObj[i].value=='') {submit=false; errorObj.innerHTML="*Please fill each account input." ;break;}
+			else if(debitObj[i].value!=''&&creditObj[i].value!='') {submit=false; errorObj.innerHTML="*Account input can not have both debit and credit entry." ;break;}
+			else if(debitObj[i].value==''&&creditObj[i].value=='') {submit=false; errorObj.innerHTML="*Account input must have either a debit or credit entry." ;break;}
+			else {
+				submit=(isValidNumber(debitObj[i].value)&&isValidNumber(creditObj[i].value));
+			}
+		}
+		if(month=='') {submit=false; errorObj.innerHTML="*Select a month." ;}
+		if(year=='') {submit=false; errorObj.innerHTML="*Select a year." ;}
+		if(submit) askForConfirmation();
+	}
+	function displayElement()
+	{
+			var htmlElement="";
+			htmlElement+=('<table class="childTable" align="center" border="1">'+
+				'<thead></tr>'
+					+'<th>Date</th>'
+					+'<th>Account</th>'
+					+'<th>Ref</th>'
+					+'<th>Debit</th>'
+					+'<th>Credit</th>'+
+				'</tr></thead><tbody>');
+			htmlElement+=('<tr><td><input name="date[]"></td>'+
+					'<td><input name="account[]"></td>'+
+					'<td><input type="checkbox"></td>'+
+					'<td><input name="debit[]"></td>'+
+					'<td><input name="credit[]"></td></tr>');
+			htmlElement+=('</tbody></table><br/><input type="button" onClick="addRow()" value="Add Row" align="left">'+
+			'<input type="button"  onClick="deleteRow()" value="Delete Row">');
+			return htmlElement;
+	}
+	function askForConfirmation()
+	{
+		modal.style.display = "block";
+	}
+	function closeModal() 
+	{
+		modal.style.display = "none";
+	}
+	function confirm()
+	{
+		modal.style.display = "none";
+		var form = document.getElementsByTagName("form")[0];
+		form.submit();
+	}
+</script>

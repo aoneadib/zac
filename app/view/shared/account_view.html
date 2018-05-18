@@ -1,0 +1,143 @@
+<link rel="stylesheet" type="text/css" href="design/accountTableStyle.css">
+<link rel="stylesheet" type="text/css" href="design/modalstyle.css">
+<script src="app/lib/signupValidator.js"></script>
+<html>
+
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h2>Are you sure you want to edit your information?</h2>
+		</div>
+		<div class="modal-body">
+		  <input type="button" onclick="makeChanges()" value="YES">
+		  <input type="button" onclick="closeModal()" value="NO">
+		</div>
+	  </div>
+
+	</div>
+	
+	<form method="post">
+	<body>
+		<div id="accountView">
+		</div>
+	</body>
+	</form>
+</html>
+<script>
+	function accountTable()
+	{
+		var tableDivObj = document.getElementById("accountView");
+		tableHTML = '<table name="accountInfoTable" class="childTable" border="1"><tbody>';
+		tableHTML +='<tr name="Name"><th>Name: </th><td>'+user['name']+'</td><td><input type="button" onClick="change(\'Name\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Email"><th>E-mail: </th><td>'+user['email']+'</td><td><input type="button" onClick="change(\'Email\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Password"><th>Password: </th><td></td><td><input type="button" onClick="change(\'Password\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Gender"><th>Gender: </th><td>'+user['gender']+'</td><td><input type="button" onClick="change(\'Gender\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Date"><th>Date of Birth: </th><td>'+user['dobday']+'/'+user['dobmonth']+'/'+user['dobyear']+'</td><td><input type="button" onClick="change(\'Date\')" value="Change"></td></tr>';
+		tableHTML +='<tr name="Phone"><th>Phone No.: </th><td>'+user['phoneno']+'</td><td><input type="button" onClick="change(\'Phone\')" value="Change"></td></tr>';
+		tableHTML +='</tbody></table>';
+		tableDivObj.innerHTML = tableHTML;
+		return tableHTML;
+	}
+	function makeChanges()
+	{
+		var formObj = document.getElementsByTagName("form")[0];
+		formObj.submit();
+	}
+	function closeModal()
+	{
+		var modal = document.getElementById('myModal');
+		modal.style.display = "none";
+	}
+	function confirmChanges()
+	{
+		var isValidEdit=true;
+		var nameObj= document.getElementsByName("name")[0];
+		var passwordObj= document.getElementsByName("password")[0];
+		var emailObj= document.getElementsByName("email")[0];
+		var confirmPasswordObj= document.getElementsByName("confirmPassword")[0];
+		var genderObj=document.getElementsByName('gender');
+		var dobDayObj= document.getElementsByName("dobDay")[0];
+		var dobMonthObj= document.getElementsByName("dobMonth")[0];
+		var dobYearObj= document.getElementsByName("dobYear")[0];
+		var phoneObj= document.getElementsByName("phoneno")[0];
+		
+		if(nameObj!=null) isValidEdit=isValidName(nameObj.value);
+		if(emailObj!=null) isValidEdit=isValidEmail(emailObj.value);
+		if(passwordObj!=null) isValidEdit=isValidPassword(passwordObj.value);
+		if(confirmPasswordObj!=null) isValidEdit=isPasswordConfirmed(passwordObj.value,confirmPasswordObj.value);
+		if(genderObj.length!=0) isValidEdit=isGenderSelected(genderObj);
+		if(dobDayObj!=null) isValidEdit=isValidDate(dobDayObj.value,dobMonthObj.value,dobYearObj.value);
+		if(phoneObj!=null) isValidEdit=isValidPhoneNo(phoneObj.value);
+		
+		if(isValidEdit) 
+		{
+			var modal = document.getElementById('myModal');
+			modal.style.display = "block";
+		}
+	}
+	function change(entry)
+	{
+		var table = document.getElementsByName("accountInfoTable")[0];
+		var row = document.getElementsByName(entry)[0];
+		if(entry=="Name") changeName(row);
+		if(entry=="Gender") changeGender(row);
+		if(entry=="Date") changeDate(row);
+		if(entry=="Password") changePassword(row);
+		if(entry=="Phone") changePhone(row);
+		if(entry=="Email") changeEmail(row);
+		console.log(table.rows.length);
+		if(table.rows.length==6)
+		{
+			var newRow = table.insertRow();
+			newRow.innerHTML='<td colspan="3"><input type="button" value="Confirm Changes" onClick="confirmChanges()"/><input type="button" value="Cancel" onClick="location.reload()"/></td>';
+		}
+	}
+	function changeName(row)
+	{
+		row.innerHTML='<th>Name: </th><td colspan="2">Name: '+user['name']+'<br/>Change Name: <input type="text" name="name" onkeyup="isValidName(this.value)"/><div class="nameError"></div></td>';
+	}
+	function changeEmail(row)
+	{
+		row.innerHTML='<th>E-mail: </th><td colspan="2">E-mail: '+user['email']+'<br/>Change E-mail: <input type="text" name="email" onkeyup="isValidEmail(this.value)"/><div class="emailError"></div></td>';
+	}	
+	function changePassword(row)
+	{
+		row.innerHTML='<th>Password: </th><td colspan="2">New Password: <input type="password" name="password" onkeyup="isValidPassword(this.value)"/><div class="passError"></div>'+
+		'<br/>Confirm Password: <input type="password" name="confirmPassword"/>'+
+		'<div class="confirmPassError"></div></td>';
+	}		
+	function changeGender(row)
+	{
+		row.innerHTML='<th>Gender: </th><td colspan="2">Gender: '+user['gender']+
+		'<br/>Change Gender: <input type="radio" name="gender" value="Male"/>Male'+
+					'<input type="radio" name="gender" value="Female"/>Female'+
+					'<input type="radio" name="gender" value="Other"/>Other<div class="genderErrorObj"></div>';
+	}	
+	function changeDate(row)
+	{
+		rowHTML='<th>Date of Birth: </th><td colspan="2">Date of Birth: '+user['dobday']+'/'+user['dobmonth']+'/'+user['dobyear']+
+		'<br/>Change Date of Birth: <select name="dobDay"><option></option>';
+		for(var i=1;i<32;i++) 
+		{
+			rowHTML+=('<option>'+i+'</option>');
+		}
+		rowHTML+='</select>/<select name="dobMonth"><option></option>';
+		for(var i=1;i<13;i++) 
+		{
+			rowHTML+=('<option>'+i+'</option>');
+		}
+		rowHTML+='</select>/<select name="dobYear"><option></option>';
+		for(var i=1900;i<2016;i++) 
+		{
+			rowHTML+=('<option>'+i+'</option>');
+		}
+		rowHTML+='</select>(dd/mm/yyyy)<div class="dateError"></div></td>';
+		row.innerHTML = rowHTML;
+	}
+	function changePhone(row)
+	{
+		row.innerHTML='<th>Phone No.: </th><td colspan="2">Phone No.: '+user['phoneno']+'<br/>Change Phone No.: <input name="phoneno" onkeyup="isValidPhoneNo(this.value)"/><div class="phoneError"></div></td>';
+	}
+</script>

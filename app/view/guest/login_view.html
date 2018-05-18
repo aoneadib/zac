@@ -1,0 +1,43 @@
+<!doctype html>
+<script>
+      function f(){
+        formObj = document.getElementsByTagName("form")[0];
+		var email= document.getElementsByName("email")[0].value;
+		var password= document.getElementsByName("pass")[0].value; 
+		if(email!="")
+		{
+			var myRegEx= new RegExp('[^@]+@[^@]+.[^@]');
+			if(!myRegEx.test(email))
+			{
+				return false;
+			}
+		}
+		else return false;
+		if(password!="")
+		{
+			formObj.submit();
+			return true;
+		}
+		else return false;
+      }
+</script>
+<html>
+	<head>
+		<title>ZAC | Log-In</title>
+		<link rel="stylesheet" type="text/css" href="design/loginstyle.css">
+	</head>
+	<body>
+		<h1>Account Log In</h1>
+		<div class="container">
+			<img src="images/user.jpg">
+			<form method="post" onsubmit="return f();">
+				<input type="email" name="email" placeholder="Email"><div class="emailError"></div>
+				<input type="password" name="pass" placeholder="Password"><div class="passError"></div>
+				<input type="submit" name="login" value="LOG IN" onclick="f()"></br>
+				<a href='?guest_signup'>
+				Don't have an account? Click here to Create Account.
+				</a>
+			</form>
+		</div>
+	</body>
+</html>

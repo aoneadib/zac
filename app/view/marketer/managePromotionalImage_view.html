@@ -1,0 +1,64 @@
+<link rel="stylesheet" type="text/css" href="design/managementTableStyle.css">
+<body>
+	<form enctype="multipart/form-data" method="post" onsubmit="return f();">
+	<table align="center" border="1" >
+	
+			<tr>
+				<th colspan="1">Upload New Promotional Image ( Please use images with 16:3 ration for best results )<div name="imageErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+					<input name="pic" type="file"/>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="1">Select a Image to Remove It<div name="imageErrorObj"></div></th>
+			</tr>
+			<tr>
+				<td>
+	<script type="text/javascript">
+		for(var index in promotionImages)
+		{
+			document.write('<button type="button" onclick="removeImage('+index+',this)"><img src="'+promotionImages[index]+'"alt="HTML tutorial" style="width:250px;height:250px;border:0;"/></button>');
+		}
+	</script>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="1" align="middle">
+				<input type="submit" name="confirm" value="Confirm Changes" onclick="f()">
+				<input  type="button" onClick="location.reload()" value="reset"/>
+				</td>
+			</tr>
+	</table>
+			<input type="hidden" name="deleteImagesLoc"/>
+	</form>
+</body>
+
+<script>
+	var deleteImagesLoc=[];
+	function removeImage(index,buttonObj)
+	{
+		var imageLocation = promotionImages[index];
+		var key = deleteImagesLoc.indexOf(imageLocation);
+		if(key==-1) 
+		{
+			deleteImagesLoc.push(imageLocation);
+			buttonObj.style.background='Red';
+		}
+		else 
+		{
+			deleteImagesLoc.splice(key, 1);
+			buttonObj.style.background='';
+		}
+		console.log(promotionImages[index]);
+	}
+	function f()
+	{
+		var hiddenTypeObi= document.getElementsByName("deleteImagesLoc")[0];
+		hiddenTypeObi.value = deleteImagesLoc;
+        formObj = document.getElementsByTagName("form")[0];
+		formObj.submit();
+		return true;
+	}
+</script>

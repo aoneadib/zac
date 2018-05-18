@@ -1,0 +1,64 @@
+<script>
+	function searchSuggestion()
+	{
+          var searchBox = document.getElementById("searchBox");
+          var req2 = new XMLHttpRequest();
+		  req2.open("GET", "?"+userType+"_getSuggestions_"+searchBox.value, true);
+          req2.send();
+          req2.onload = function (){
+              if(req2.readyState==4){
+				var suggestions= JSON.parse(req2.responseText.split(/\r?\n/).pop().trim());
+				var suggestionSelectBox = document.getElementById("suggestionBox");
+				var suggestionSelectList='<select size="2" onchange="location = this.value;">';
+				for(var index2 in suggestions){
+				var query2 = suggestions[index2].name.replace(/ /g,"--");
+				suggestionSelectList+='<option value="?'+userType+'_searchResult_'+query2+'">'+suggestions[index2].name+'</option>';
+				}
+				suggestionSelectList+='</select>';
+				suggestionSelectBox.innerHTML=suggestionSelectList;
+				console.log(suggestions);
+			  }
+          }
+	}
+	function search()
+	{
+          var searchBox = document.getElementById("searchBox");
+		  var query2 = searchBox.value.replace(/ /g,"--");
+		  location = '?'+userType+'_searchResult_'+query2;
+	}
+</script>
+<html>
+	<link rel="stylesheet" type="text/css" href="design/homestyle.css">	
+	<link rel="stylesheet" type="text/css" href="design/dropDownButtonStyle.css">
+	<title>ZAC</title>
+	<head>
+		<div id="nav_wrapper"><br>
+			<ul>
+				<script>document.write('<a href="'+head0Loc+'"><img src="images/zac.jpg" width="40px"/></a> ');</script>
+				
+				<div class="dropdown">
+				  <li class="dropbtn">Catagories</li>
+				  <div class="dropdown-content">
+					<script>document.write('<a href="?'+userType+'_home_Men">Men\'s Apparel</a>');</script>
+					<script>document.write('<a href="?'+userType+'_home_Women">Women\'s Apparel</a>');</script>
+					<script>document.write('<a href="?'+userType+'_home_Children">Children\'s Apparel</a>');</script>
+					<script>document.write('<a href="?'+userType+'_home_Accessories">Accessories</a>');</script>
+				  </div>
+				</div>
+				<li><script>document.write('<a href="'+head1Loc+'">'+head1Title+'</a> ');</script></li>
+				<li><script>document.write('<a href="'+head2Loc+'">'+head2Title+'</a> ');</script></li>
+				<script>if(userType=="customer"||userType=="admin") document.write('<li><a href="'+head4Loc+'">'+head4Title+'</a></li>');</script>
+				<script>if(userType=="admin") document.write('<li><a href="'+head5Loc+'">'+head5Title+'</a></li>');</script>
+				<script>if(userType!="guest") document.write('<li><a href="'+head3Loc+'">'+head3Title+'</a></li>');</script>
+						
+				<div class="search-box" align="center">
+					<input type="text" id="searchBox" placeholder="Search..." class="search-box-input" onkeyup="searchSuggestion()">
+					<button class="search-box-button" onclick="search()">&#128269;</button>
+					<div id="suggestionBox">
+					</div>
+					<br/>
+				</div>
+			</ul>	
+		</div>	
+	</head>
+<html>
