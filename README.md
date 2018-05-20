@@ -4,17 +4,13 @@ Make sure to download the zac.sql database file and import it in your MySql data
 Here are some existing account names and passwords,
 
 Admin account:
-Email: admin@admin.com
-Password: adminguyadmin
+Email: admin@admin.com , Password: adminguyadmin
 
 Customer Account:
-Email: customer@customer.com
-Password: customercustomer
+Email: customer@customer.com , Password: customercustomer
 
 Salesman Account:
-Email: salesman@salesman.com
-Password: salesmansalesman
+Email: salesman@salesman.com , Password: salesmansalesman
 
 Accountant Account:
-Email: accountant@accountant.com
-Password: accountantaccountant
+Email: accountant@accountant.com , Password: accountantaccountant
